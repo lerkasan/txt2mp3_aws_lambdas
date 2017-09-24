@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#convert").click(function () {
+                var txt = $("input").val();
+                $.ajax({
+                    type: "POST",
+                    url: "https://36e8qih155.execute-api.us-west-2.amazonaws.com/txt2audio/text",
+                    dataType: "json",
+                    contentType : "application/json",
+                    data: JSON.stringify({"text": txt}),
+                    success: function (result) {
+                        $("div").html('<audio src=' + result.url + ' autoplay="autoplay" controls></audio>' +
+                            '<p>url = ' + result.url +
+                            '<br>uuid = ' + result.uuid +'</p>');
+                    }
+                });
+            });
+        });
+    </script>
+</head>
+
+<body>
+<p>Please enter a text phrase to be converted to speech:</p>
+<input type="text" size="150">
+<button id="convert">Convert</button>
+<p>
+<div></div>
+</p>
+</body>
+</html>
+
+
