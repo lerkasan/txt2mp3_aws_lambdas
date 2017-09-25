@@ -5,7 +5,7 @@
     <script>
         $(document).ready(function () {
             $("#convert").click(function () {
-                var txt = $("input").val();
+                var txt = $("#text").val();
                 $.ajax({
                     type: "POST",
                     url: "https://36e8qih155.execute-api.us-west-2.amazonaws.com/txt2audio/text",
@@ -22,14 +22,11 @@
         });
     </script>
 </head>
-
 <body>
-<p>Please enter a text phrase to be converted to speech:</p>
-<input type="text" size="150">
-<button id="convert">Convert</button>
-<p>
-<div></div>
-</p>
+    <p>Please enter a text phrase to be converted to speech:</p>
+    <textarea id="text" rows="15" cols="100" maxlength="1499"></textarea>
+    <br><button id="convert">Convert</button>
+    <p><div></div></p>
 </body>
 </html>
 

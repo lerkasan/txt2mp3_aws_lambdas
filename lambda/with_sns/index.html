@@ -3,6 +3,26 @@
 <head>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script>
+        function get_metadata_and_audio(uuid) {
+            $.ajax({
+                type: "GET",
+                url: "https://wvxnnms2zi.execute-api.us-west-2.amazonaws.com/prod/text",
+                dataType: "json",
+                contentType: "application/json",
+                data: {"uuid": uuid},
+                success: function (result) {
+                    var s3_url = result.url;
+                    if (s3_url !== "-") {
+                        $("#info1").html('<audio src=' + result.url + ' autoplay="autoplay" controls></audio>' +
+                            '<br>uuid = ' + result.uuid +
+                            '<br>url = ' + result.url +
+                            '<br>text = ' + result.text);
+                        $("#label1").html('');
+                    }
+                }
+            });
+        }
+
         $(document).ready(function () {
             $("#convert").click(function () {
                 var txt = $("#text").val();
@@ -10,43 +30,46 @@
                     type: "POST",
                     url: "https://wvxnnms2zi.execute-api.us-west-2.amazonaws.com/prod/text",
                     dataType: "json",
-                    contentType : "application/json",
+                    contentType: "application/json",
                     data: JSON.stringify({"text": txt}),
                     success: function (result) {
-                        $("div").html('<br>uuid = ' + result.uuid);
+                        $("#label1").html('<br>uuid = ');
+                        $("#info1").html(result.uuid);
+                        setTimeout(function () {
+                            get_metadata_and_audio(result.uuid);
+                        }, 7000);
                     }
                 });
             });
             $("#get_info").click(function () {
                 var uuid = $("#uuid").val();
-                $.ajax({
-                    type: "GET",
-                    url: "https://wvxnnms2zi.execute-api.us-west-2.amazonaws.com/prod/text",
-                    dataType: "json",
-                    contentType : "application/json",
-                    data: {"uuid": uuid},
-                    success: function (result) {
-                        $("#info").html('<audio src=' + result.url + ' autoplay="autoplay" controls></audio>' +
-                            '<br>uuid = ' + result.uuid +
-                            '<br>url = ' +result.url +
-                            '<br>text = ' + result.text);
-                    }
-                });
+                get_metadata_and_audio(uuid);
             });
         });
     </script>
 </head>
-
 <body>
-<p>Please enter a text phrase to be converted to speech:</p>
-<input type="text" id="text" size="150">
-<button id="convert">Convert</button>
-<br><br><br>
-<input type="text" id="uuid" size="150">
-<button id="get_info">Get info and play speech</button>
-<p>
-<div id="info"></div>
-</p>
+<table>
+    <tr>
+        <td>
+            Please enter a text phrase to be converted to speech:
+            <br><textarea id="text" rows="15" cols="100" maxlength="1499"></textarea>
+            <br>
+            <button id="convert">Convert</button>
+        </td>
+        <td>
+            Please enter an UUID of text phrase to see metadata and listen to mp3:
+            <br><input type="text" id="uuid" size="80">
+            <br>
+            <button id="get_info">Get metadata and play speech</button>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="2" align="center">
+            <p><span id="label1"></span><span id="info1"></span></p>
+        </td>
+    </tr>
+</table>
 </body>
 </html>
 
