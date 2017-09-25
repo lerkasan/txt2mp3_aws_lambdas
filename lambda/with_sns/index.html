@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#convert").click(function () {
+                var txt = $("#text").val();
+                $.ajax({
+                    type: "POST",
+                    url: "https://wvxnnms2zi.execute-api.us-west-2.amazonaws.com/prod/text",
+                    dataType: "json",
+                    contentType : "application/json",
+                    data: JSON.stringify({"text": txt}),
+                    success: function (result) {
+                        $("div").html('<br>uuid = ' + result.uuid);
+                    }
+                });
+            });
+            $("#get_info").click(function () {
+                var uuid = $("#uuid").val();
+                $.ajax({
+                    type: "GET",
+                    url: "https://wvxnnms2zi.execute-api.us-west-2.amazonaws.com/prod/text",
+                    dataType: "json",
+                    contentType : "application/json",
+                    data: {"uuid": uuid},
+                    success: function (result) {
+                        $("div").html('<br>uuid = ' + result.uuid +
+                        '<br>url = ' +result.url +
+                        '<br>text = ' + result.text);
+                    }
+                });
+            });
+        });
+    </script>
+</head>
+
+<body>
+<p>Please enter a text phrase to be converted to speech:</p>
+<input type="text" id="text" size="150">
+<button id="convert">Convert</button>
+<br><br><br>
+<input type="text" id="uuid" size="150">
+<button id="get_info">Get info</button>
+<p>
+<div></div>
+</p>
+</body>
+</html>
+
+
+

@@ -36,7 +36,7 @@ def lambda_handler(event, context):
                 'uuid': result['uuid'],
                 'url': result['s3_url']
             }
-    if 'uuid' in event['pathParameters']:
+    if 'uuid' in event:
         uuid = event['uuid']
         table = dynamodb.Table(dynamodb_table)
         result = table.get_item(
@@ -49,9 +49,10 @@ def lambda_handler(event, context):
                 'uuid': uuid
             }
         else:
+            value = result['Item']
             return {
                 'message': "This uuid item exists in database",
-                'text': result['text'],
-                'uuid': result['uuid'],
-                'url': result['s3_url']
+                'text': value['text'],
+                'uuid': value['uuid'],
+                'url': value['s3_url']
             }
