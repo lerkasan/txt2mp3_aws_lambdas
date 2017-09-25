@@ -26,9 +26,10 @@
                     contentType : "application/json",
                     data: {"uuid": uuid},
                     success: function (result) {
-                        $("div").html('<br>uuid = ' + result.uuid +
-                        '<br>url = ' +result.url +
-                        '<br>text = ' + result.text);
+                        $("#info").html('<audio src=' + result.url + ' autoplay="autoplay" controls></audio>' +
+                            '<br>uuid = ' + result.uuid +
+                            '<br>url = ' +result.url +
+                            '<br>text = ' + result.text);
                     }
                 });
             });
@@ -42,9 +43,9 @@
 <button id="convert">Convert</button>
 <br><br><br>
 <input type="text" id="uuid" size="150">
-<button id="get_info">Get info</button>
+<button id="get_info">Get info and play speech</button>
 <p>
-<div></div>
+<div id="info"></div>
 </p>
 </body>
 </html>
