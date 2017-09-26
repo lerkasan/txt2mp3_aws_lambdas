@@ -51,6 +51,4 @@ def hash_me(text):
 
 if __name__ == "__main__":
     create_txt2mp3_table("txt2mp3")
-   # put_item_in_table("txt2mp3", "lerkasan", "my_s3_bucket_file_url")
-   # hash_me("Hello world2")
 

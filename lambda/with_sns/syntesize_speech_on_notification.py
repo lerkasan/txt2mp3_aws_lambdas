@@ -65,7 +65,6 @@ def synthesize_speech(text):
 
 def check_s3_file_exists(bucketname, filename):
     s3 = boto3.resource('s3')
-    exists = False
     try:
         s3.Object(bucketname, filename).load()
     except botocore.exceptions.ClientError as e:
