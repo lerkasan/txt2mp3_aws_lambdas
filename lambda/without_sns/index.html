@@ -13,7 +13,7 @@
                     contentType : "application/json",
                     data: JSON.stringify({"text": txt}),
                     success: function (result) {
-                        $("div").html('<audio src=' + result.url + ' autoplay="autoplay" controls></audio>' +
+                        $("#info").html('<audio src=' + result.url + ' autoplay="autoplay" controls></audio>' +
                             '<p>url = ' + result.url +
                             '<br>uuid = ' + result.uuid +'</p>');
                     }
@@ -26,7 +26,7 @@
     <p>Please enter a text phrase to be converted to speech:</p>
     <textarea id="text" rows="15" cols="100" maxlength="1499"></textarea>
     <br><button id="convert">Convert</button>
-    <p><div></div></p>
+    <p><div id="info"></div></p>
 </body>
 </html>
 
